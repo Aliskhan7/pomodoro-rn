@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
 
-const Navigation = () => {
+const Home = () => {
 	return <View></View>
 }
 
-export default Navigation
+export default Home
