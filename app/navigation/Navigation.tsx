@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
-import { View } from 'react-native'
 import { useAuth } from '@/hooks/useAuth'
 import { useNavigationContainerRef } from '@react-navigation/native'
+import BottomMenu from '@/components/ui/layout/bottom-menu/BottomMenu'
 
 const Navigation: FC = () => {
 	const { user } = useAuth()
@@ -23,7 +23,13 @@ const Navigation: FC = () => {
 		}
 	}, [])
 
-	return <View></View>
+	return (
+		<>
+			{user && currentRoute && (
+				<BottomMenu nav={navRef.navigate} currentRoute={currentRoute} />
+			)}
+		</>
+	)
 }
 
 export default Navigation
