@@ -6,4 +6,6 @@ export interface IMenuItem {
 	path: keyof TypeRootStackParamList
 }
 
-export type TypeNav = (name: TypeRootStackParamList) => void
+export type TypeNav = (
+	name: 'Auth' | 'Home' | 'Settings' | 'Profile' | 'Statistics'
+) => void
