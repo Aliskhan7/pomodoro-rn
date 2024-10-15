@@ -4,6 +4,7 @@ import React, {
 	FC,
 	PropsWithChildren,
 	SetStateAction,
+	useEffect,
 	useState
 } from 'react'
 import { IUser } from '@/types/user.interface'
@@ -22,6 +23,15 @@ let ignore = Splash.preventAutoHideAsync()
 
 const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 	const [user, setUser] = useState<TypeUserState>(null)
+	useEffect(() => {
+		let isMounted = false
+		const getUserFromStorage = async () => {
+			if (isMounted) {
+			}
+			await Splash.hideAsync()
+		}
+		let ignore = getUserFromStorage()
+	}, [])
 	return (
 		<AuthContext.Provider value={{ user, setUser }}>
 			{children}
