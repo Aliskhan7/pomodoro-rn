@@ -13,7 +13,7 @@ interface IMenuItemProps {
 const MenuItem: FC<IMenuItemProps> = ({ currentRoute, nav, item }) => {
 	const isActive = currentRoute === item.path
 	return (
-		<Pressable className='w-[24%]' onPress={() => nav(item.path)}>
+		<Pressable className='w-[24%] items-center' onPress={() => nav(item.path)}>
 			<AntDesign
 				name={item.iconName}
 				size={26}
