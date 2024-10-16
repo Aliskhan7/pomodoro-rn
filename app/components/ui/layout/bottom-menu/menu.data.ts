@@ -3,15 +3,15 @@ import { IMenuItem } from '@/components/ui/layout/bottom-menu/menu.interface'
 export const menuData: IMenuItem[] = [
 	{
 		path: 'Home',
-		iconName: 'clockcircleo'
+		iconName: 'clock'
 	},
 	{
 		path: 'Settings',
-		iconName: 'setting'
+		iconName: 'sliders'
 	},
 	{
 		path: 'Statistics',
-		iconName: 'barschart'
+		iconName: 'bar-chart'
 	},
 	{
 		path: 'Profile',

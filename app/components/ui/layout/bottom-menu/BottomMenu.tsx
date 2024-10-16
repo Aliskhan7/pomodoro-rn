@@ -13,7 +13,7 @@ const BottomMenu: FC<IBottomMenu> = props => {
 	const { bottom } = useSafeAreaInsets()
 	return (
 		<View
-			className='pt-5 px-3 flex-row justify-between items-center w-full'
+			className='pt-5 px-3 flex-row justify-between items-center w-full bg-[#1e1c2e]'
 			style={{
 				paddingBottom: bottom + 10
 			}}
