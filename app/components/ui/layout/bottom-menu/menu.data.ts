@@ -11,7 +11,7 @@ export const menuData: IMenuItem[] = [
 	},
 	{
 		path: 'Statistics',
-		iconName: 'bar-chart'
+		iconName: 'bar-chart-2'
 	},
 	{
 		path: 'Profile',
