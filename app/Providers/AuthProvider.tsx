@@ -17,7 +17,7 @@ interface IContext {
 	setUser: Dispatch<SetStateAction<TypeUserState>>
 }
 
-export const AuthContext = createContext({} as IContext)
+export const AuthContext = createContext(null)
 
 let ignore = Splash.preventAutoHideAsync()
 
@@ -32,6 +32,7 @@ const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 		}
 		let ignore = getUserFromStorage()
 	}, [])
+
 	return (
 		<AuthContext.Provider value={{ user, setUser }}>
 			{children}
