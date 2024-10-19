@@ -4,6 +4,7 @@ import { IAuthFormData } from '@/types/auth.interface'
 import { useAuth } from '@/hooks/useAuth'
 import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
 import Loader from '@/components/ui/layout/Loader'
+import Button from '@/components/ui/Button'
 
 const Auth = () => {
 	const [isReg, setIsReg] = useState(false)
@@ -27,10 +28,16 @@ const Auth = () => {
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<View className='items-center justify-center flex-1'>
 				<View className='w-3/4'>
-					<Text className='text-white text-xl text-center'>
+					<Text className='text-white text-5xl font-bold text-center'>
 						{isReg ? 'Sign up' : 'Sign in'}
 					</Text>
-					{isLoading ? <Loader /> : <></>}
+					{isLoading ? (
+						<Loader />
+					) : (
+						<>
+							<Button>Let's go</Button>
+						</>
+					)}
 				</View>
 			</View>
 		</TouchableWithoutFeedback>
