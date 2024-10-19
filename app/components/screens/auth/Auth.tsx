@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { IAuthFormData } from '@/types/auth.interface'
 import { useAuth } from '@/hooks/useAuth'
-import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
+import {
+	Keyboard,
+	Pressable,
+	Text,
+	TouchableWithoutFeedback,
+	View
+} from 'react-native'
 import Loader from '@/components/ui/layout/Loader'
 import Button from '@/components/ui/Button'
 
@@ -35,7 +41,15 @@ const Auth = () => {
 						<Loader />
 					) : (
 						<>
-							<Button>Let's go</Button>
+							<Button onPress={handleSubmit(onSubmit)}>Let's go</Button>
+							<Pressable
+								onPress={() => setIsReg(!isReg)}
+								className='w-16 self-end'
+							>
+								<Text className='text-opacity-70 text-white text-base mt-3'>
+									{isReg ? 'Login' : 'Register'}
+								</Text>
+							</Pressable>
 						</>
 					)}
 				</View>
