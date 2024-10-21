@@ -9,8 +9,9 @@ import {
 	TouchableWithoutFeedback,
 	View
 } from 'react-native'
-import Loader from '@/components/ui/layout/Loader'
 import Button from '@/components/ui/Button'
+import AuthFields from '@/components/screens/auth/AuthFields'
+import Loader from '@/components/ui/Loader'
 
 const Auth = () => {
 	const [isReg, setIsReg] = useState(false)
@@ -26,6 +27,7 @@ const Auth = () => {
 			_id: '',
 			...data
 		})
+		reset()
 	}
 
 	const isLoading = false
@@ -34,13 +36,14 @@ const Auth = () => {
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<View className='items-center justify-center flex-1'>
 				<View className='w-3/4'>
-					<Text className='text-white text-5xl font-bold text-center'>
+					<Text className='text-white text-5xl font-bold text-center mb-5'>
 						{isReg ? 'Sign up' : 'Sign in'}
 					</Text>
 					{isLoading ? (
 						<Loader />
 					) : (
 						<>
+							<AuthFields control={control} />
 							<Button onPress={handleSubmit(onSubmit)}>Let's go</Button>
 							<Pressable
 								onPress={() => setIsReg(!isReg)}
