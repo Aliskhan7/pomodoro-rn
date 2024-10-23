@@ -1,11 +1,14 @@
 import React from 'react'
-import { View } from 'react-native'
 import Layout from '@/components/ui/layout/Layout'
+import Button from '@/components/ui/Button'
+import { useAuth } from '@/hooks/useAuth'
 
 const Profile = () => {
+	const { setUser } = useAuth()
+
 	return (
 		<Layout title='Profile'>
-			<View></View>
+			<Button onPress={() => setUser(null)}></Button>
 		</Layout>
 	)
 }

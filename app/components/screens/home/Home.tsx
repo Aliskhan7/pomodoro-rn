@@ -1,8 +1,13 @@
 import React from 'react'
-import { View } from 'react-native'
+import Layout from '@/components/ui/layout/Layout'
+import Timer from '@/components/screens/home/timer/Timer'
 
 const Home = () => {
-	return <View></View>
+	return (
+		<Layout title='Timer'>
+			<Timer />
+		</Layout>
+	)
 }
 
 export default Home
