@@ -23,8 +23,8 @@ const MenuItem: FC<IMenuItemProps> = ({ currentRoute, nav, item }) => {
 								width: 0,
 								height: 3
 							},
-							shadowOpacity: 0.6,
-							shadowRadius: 8,
+							shadowOpacity: 0.7,
+							shadowRadius: 10,
 
 							elevation: 20
 						}
