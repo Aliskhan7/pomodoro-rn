@@ -12,15 +12,34 @@ const Timer = () => {
 			<View className='self-center'>
 				<CountdownCircleTimer
 					isPlaying={isPlaying}
-					duration={7}
+					duration={3310}
 					colors={['#3a3578', '#664ff3']}
 					colorsTime={[7, 0]}
 					onComplete={() => setIsPlaying(false)}
 					size={300}
 					strokeWidth={15}
 				>
-					{({ remainingTime }) => <Text>{remainingTime}</Text>}
+					{({ remainingTime }) => {
+						const hours = Math.floor(remainingTime / 3600)
+						let minutes: string | number = Math.floor(
+							(remainingTime % 3600) / 60
+						)
+						minutes = minutes < 10 ? '0' + minutes : minutes
+
+						let seconds: string | number = remainingTime % 60
+						seconds = seconds < 10 ? '0' + seconds : seconds
+
+						return (
+							<Text className='text-white text-6xl font-semibild mt-4'>{`${hours}:${minutes}:${seconds}`}</Text>
+						)
+					}}
 				</CountdownCircleTimer>
+				<View className='mt-14'>
+					<View className='flex-row items-center'>
+						<View className='w-5 h-5 bg-primary rounded-full' />
+						<View className='w-7 h-0.5 bg-primary' />
+					</View>
+				</View>
 			</View>
 			<Text>Timer</Text>
 			<Pressable

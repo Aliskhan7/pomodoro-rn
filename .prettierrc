@@ -15,7 +15,7 @@
     "^@/providers/(.*)$",
     "^@/types/(.*)$",
     "^../(.*)$",
-    "^./(.*)$"
+     "^./(.*)$"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
