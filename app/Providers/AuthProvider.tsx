@@ -17,12 +17,13 @@ interface IContext {
 	setUser: Dispatch<SetStateAction<TypeUserState>>
 }
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext({} as IContext)
 
 let ignore = Splash.preventAutoHideAsync()
 
 const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 	const [user, setUser] = useState<TypeUserState>(null)
+
 	useEffect(() => {
 		let isMounted = false
 		const getUserFromStorage = async () => {

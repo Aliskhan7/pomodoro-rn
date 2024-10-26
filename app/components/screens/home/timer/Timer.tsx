@@ -4,15 +4,23 @@ import { Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
 import { AppConstants } from '@/app.constants'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import { EnumStatus } from '@/components/screens/home/timer/timer.interface'
+
+const flowDuration = 1 * 60
+const sessionCount = 7
+const breakDuration = 1 * 60
 
 const Timer = () => {
 	const [isPlaying, setIsPlaying] = useState(false)
+	const [status, setStatus] = useState<EnumStatus>(EnumStatus.REST)
+
 	return (
 		<View className='justify-center flex-1'>
 			<View className='self-center'>
+				<Text>{status === EnumStatus.WORK ? '🔥' : '🙃'}</Text>
 				<CountdownCircleTimer
 					isPlaying={isPlaying}
-					duration={3310}
+					duration={flowDuration}
 					colors={['#3a3578', '#664ff3']}
 					colorsTime={[7, 0]}
 					onComplete={() => setIsPlaying(false)}
@@ -34,11 +42,15 @@ const Timer = () => {
 						)
 					}}
 				</CountdownCircleTimer>
-				<View className='mt-14'>
-					<View className='flex-row items-center'>
-						<View className='w-5 h-5 bg-primary rounded-full' />
-						<View className='w-7 h-0.5 bg-primary' />
-					</View>
+				<View className='mt-14 flex-row items-center justify-center'>
+					{Array.from(Array(sessionCount)).map((_, index) => (
+						<View className='flex-row items-center' key={`point ${index}`}>
+							<View className='w-5 h-5 bg-primary rounded-full' />
+							{index + 1 !== sessionCount && (
+								<View className='w-7 h-0.5 bg-primary' />
+							)}
+						</View>
+					))}
 				</View>
 			</View>
 			<Text>Timer</Text>
