@@ -57,7 +57,7 @@ const Timer = () => {
 										? 'border-[#483aa9] border-transparent'
 										: 'border-transparent bg-[#2c2b3c]',
 									{
-										'bg-primary opacity-70':
+										'bg-primary opacity-70 text-center':
 											index + 1 <= sessionCount && index !== currentSession
 									}
 								)}
