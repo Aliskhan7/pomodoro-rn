@@ -13,11 +13,11 @@ const breakDuration = 1 * 60
 const Timer = () => {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [status, setStatus] = useState<EnumStatus>(EnumStatus.REST)
+	const [currentSession, setCurrentSession] = useState<number>(1)
 
 	return (
 		<View className='justify-center flex-1'>
 			<View className='self-center'>
-				<Text>{status === EnumStatus.WORK ? '🔥' : '🙃'}</Text>
 				<CountdownCircleTimer
 					isPlaying={isPlaying}
 					duration={flowDuration}
@@ -38,16 +38,36 @@ const Timer = () => {
 						seconds = seconds < 10 ? '0' + seconds : seconds
 
 						return (
-							<Text className='text-white text-6xl font-semibild mt-4'>{`${hours}:${minutes}:${seconds}`}</Text>
+							<View className='mt-5'>
+								<Text className='text-white text-6xl font-semibild mt-4'>{`${minutes}:${seconds}`}</Text>
+								<Text className='text-center text-2xl text-white mt-0.5'>
+									{status === EnumStatus.WORK ? 'Work' : 'Rest'}
+								</Text>
+							</View>
 						)
 					}}
 				</CountdownCircleTimer>
 				<View className='mt-14 flex-row items-center justify-center'>
 					{Array.from(Array(sessionCount)).map((_, index) => (
 						<View className='flex-row items-center' key={`point ${index}`}>
-							<View className='w-5 h-5 bg-primary rounded-full' />
+							<View
+								className={cn(
+									'w-5 h-5 bg-[#2c2b3c] border-[3px] rounded-full',
+									index + 1 === currentSession
+										? 'border-[#483aa9] border-transparent'
+										: 'border-transparent bg-[#2c2b3c]',
+									{
+										'bg-primary opacity-70':
+											index + 1 <= sessionCount && index !== currentSession
+									}
+								)}
+							/>
 							{index + 1 !== sessionCount && (
-								<View className='w-7 h-0.5 bg-primary' />
+								<View
+									className={cn('w-7 h-0.5 bg-[#2c2b3c]', {
+										'bg-primary opacity-70': index + 2 <= sessionCount
+									})}
+								/>
 							)}
 						</View>
 					))}
