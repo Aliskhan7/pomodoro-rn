@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
@@ -14,27 +14,45 @@ const Timer = () => {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [status, setStatus] = useState<EnumStatus>(EnumStatus.REST)
 	const [currentSession, setCurrentSession] = useState<number>(1)
+	const [key, setKey] = useState(0)
+
+	useEffect(() => {
+		if (isPlaying && status === EnumStatus.REST) {
+			setKey(prev => prev + 1)
+		}
+	}, [isPlaying])
 
 	return (
 		<View className='justify-center flex-1'>
 			<View className='self-center'>
 				<CountdownCircleTimer
+					key={key}
 					isPlaying={isPlaying}
 					duration={flowDuration}
 					colors={['#3a3578', '#664ff3']}
-					colorsTime={[7, 0]}
-					onComplete={() => setIsPlaying(false)}
+					colorsTime={[flowDuration, 0]}
+					trailColor='#2f2f4c'
+					onComplete={() => {
+						setIsPlaying(false)
+						setCurrentSession(prev => prev + 1)
+						setStatus(EnumStatus.REST)
+					}}
 					size={300}
 					strokeWidth={15}
+					onUpdate={remainingTime => {
+						if (!!remainingTime) setStatus(EnumStatus.WORK)
+					}}
 				>
 					{({ remainingTime }) => {
-						const hours = Math.floor(remainingTime / 3600)
-						let minutes: string | number = Math.floor(
-							(remainingTime % 3600) / 60
-						)
-						minutes = minutes < 10 ? '0' + minutes : minutes
-
+						let minutes: string | number = Math.floor(remainingTime / 60)
 						let seconds: string | number = remainingTime % 60
+
+						if (status === EnumStatus.REST) {
+							minutes = Math.floor(remainingTime / 60)
+							seconds = flowDuration % 60
+						}
+
+						minutes = minutes < 10 ? '0' + minutes : minutes
 						seconds = seconds < 10 ? '0' + seconds : seconds
 
 						return (
@@ -52,10 +70,10 @@ const Timer = () => {
 						<View className='flex-row items-center' key={`point ${index}`}>
 							<View
 								className={cn(
-									'w-5 h-5 bg-[#2c2b3c] border-[3px] rounded-full',
+									' bg-[#2c2b3c] border-[3px] rounded-full',
 									index + 1 === currentSession
-										? 'border-[#483aa9] border-transparent'
-										: 'border-transparent bg-[#2c2b3c]',
+										? 'w-[22px] h-[22px] border-[#483aa9] border-transparent'
+										: 'w-5 h-5 border-transparent bg-[#2c2b3c]',
 									{
 										'bg-primary opacity-70 text-center':
 											index + 1 <= sessionCount && index !== currentSession
