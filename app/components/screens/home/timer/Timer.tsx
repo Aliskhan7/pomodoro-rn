@@ -10,6 +10,8 @@ const flowDuration = 1 * 60
 const sessionCount = 7
 const breakDuration = 1 * 60
 
+const isSmallIndicator = sessionCount > 7
+
 const Timer = () => {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [status, setStatus] = useState<EnumStatus>(EnumStatus.REST)
@@ -21,6 +23,8 @@ const Timer = () => {
 			setKey(prev => prev + 1)
 		}
 	}, [isPlaying])
+
+	const isAllSessionsCompleted = currentSession === sessionCount
 
 	return (
 		<View className='justify-center flex-1'>
@@ -36,6 +40,10 @@ const Timer = () => {
 						setIsPlaying(false)
 						setCurrentSession(prev => prev + 1)
 						setStatus(EnumStatus.REST)
+
+						if (isAllSessionsCompleted) {
+							setStatus(EnumStatus.COMPLETED)
+						}
 					}}
 					size={300}
 					strokeWidth={15}
@@ -72,19 +80,39 @@ const Timer = () => {
 								className={cn(
 									' bg-[#2c2b3c] border-[3px] rounded-full',
 									index + 1 === currentSession
-										? 'w-[22px] h-[22px] border-[#483aa9] border-transparent'
-										: 'w-5 h-5 border-transparent bg-[#2c2b3c]',
+										? 'border-[#483aa9] border-transparent'
+										: 'border-transparent bg-[#2c2b3c]',
 									{
 										'bg-primary opacity-70 text-center':
 											index + 1 <= sessionCount && index !== currentSession
-									}
+									},
+									isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'
 								)}
+								style={
+									index + 1 === currentSession
+										? {
+												shadowColor: '#483aa9',
+												shadowOffset: {
+													width: 0,
+													height: 0
+												},
+												shadowOpacity: 0.6,
+												shadowRadius: 8,
+
+												elevation: 20
+											}
+										: {}
+								}
 							/>
 							{index + 1 !== sessionCount && (
 								<View
-									className={cn('w-7 h-0.5 bg-[#2c2b3c]', {
-										'bg-primary opacity-70': index + 2 <= sessionCount
-									})}
+									className={cn(
+										'h-0.5 bg-[#2c2b3c]',
+										{
+											'bg-primary opacity-70': index + 2 <= currentSession
+										},
+										isSmallIndicator ? 'w-5' : 'w-7'
+									)}
 								/>
 							)}
 						</View>
