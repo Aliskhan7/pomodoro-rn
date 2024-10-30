@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { Foundation } from '@expo/vector-icons'
+import { Entypo, Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
 import { AppConstants } from '@/app.constants'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -28,7 +28,7 @@ const Timer = () => {
 
 	return (
 		<View className='justify-center flex-1'>
-			<View className='self-center'>
+			<View className='self-center items-center'>
 				<CountdownCircleTimer
 					key={key}
 					isPlaying={isPlaying}
@@ -78,31 +78,15 @@ const Timer = () => {
 						<View className='flex-row items-center' key={`point ${index}`}>
 							<View
 								className={cn(
-									' bg-[#2c2b3c] border-[3px] rounded-full',
+									'rounded-full border-[3px]',
 									index + 1 === currentSession
-										? 'border-[#483aa9] border-transparent'
-										: 'border-transparent bg-[#2c2b3c]',
+										? `bg-[#1e1c2e] border-[#523fc0] ${isSmallIndicator ? 'w-[17px] h-[17px]' : 'w-[22px] h-[22px]'}`
+										: `bg-[#2c2b3c] border-transparent ${isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'}`,
 									{
-										'bg-primary opacity-70 text-center':
+										'bg-primary opacity-70':
 											index + 1 <= sessionCount && index !== currentSession
-									},
-									isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'
+									}
 								)}
-								style={
-									index + 1 === currentSession
-										? {
-												shadowColor: '#483aa9',
-												shadowOffset: {
-													width: 0,
-													height: 0
-												},
-												shadowOpacity: 0.6,
-												shadowRadius: 8,
-
-												elevation: 20
-											}
-										: {}
-								}
 							/>
 							{index + 1 !== sessionCount && (
 								<View
@@ -119,33 +103,41 @@ const Timer = () => {
 					))}
 				</View>
 			</View>
-			<Text>Timer</Text>
-			<Pressable
-				onPress={() => setIsPlaying(!isPlaying)}
-				className={cn(
-					'self-center mt-10 bg-primary w-[65px] h-[65px] rounded-full items-center justify-center',
-					{
-						'pl-1.5': !isPlaying
-					}
-				)}
-				style={{
-					shadowColor: AppConstants.primary,
-					shadowOffset: {
-						width: 0,
-						height: 3
-					},
-					shadowOpacity: 0.6,
-					shadowRadius: 8,
+			<View className='flex-row items-center justify-center  mt-10'>
+				<Pressable onPress={() => {}}>
+					<Entypo name='chevron-left' size={30} color='#2c2b3c' />
+				</Pressable>
 
-					elevation: 20
-				}}
-			>
-				<Foundation
-					name={isPlaying ? 'pause' : 'play'}
-					color='white'
-					size={44}
-				/>
-			</Pressable>
+				<Pressable
+					onPress={() => setIsPlaying(!isPlaying)}
+					className={cn(
+						' bg-primary w-[65px] h-[65px] rounded-full items-center justify-center',
+						{
+							'pl-1.5': !isPlaying
+						}
+					)}
+					style={{
+						shadowColor: AppConstants.primary,
+						shadowOffset: {
+							width: 0,
+							height: 3
+						},
+						shadowOpacity: 0.6,
+						shadowRadius: 8,
+
+						elevation: 20
+					}}
+				>
+					<Foundation
+						name={isPlaying ? 'pause' : 'play'}
+						color='white'
+						size={44}
+					/>
+				</Pressable>
+				<Pressable onPress={() => {}}>
+					<Entypo name='chevron-right' size={30} color='#2c2b3c' />
+				</Pressable>
+			</View>
 		</View>
 	)
 }
