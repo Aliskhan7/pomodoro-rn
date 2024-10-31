@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { Entypo, Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
@@ -18,23 +18,37 @@ const Timer = () => {
 	const [currentSession, setCurrentSession] = useState<number>(1)
 	const [key, setKey] = useState(0)
 
-	useEffect(() => {
-		if (isPlaying && status === EnumStatus.REST) {
-			setKey(prev => prev + 1)
-		}
-	}, [isPlaying])
+	// useEffect(() => {
+	// 	if (isPlaying && status === EnumStatus.REST) {
+	// 		setKey(prev => prev + 1)
+	// 	}
+	// }, [isPlaying])
 
 	const isAllSessionsCompleted = currentSession === sessionCount
 
 	return (
 		<View className='justify-center flex-1'>
+			<Pressable
+				onPress={() => {
+					setKey(0)
+					setIsPlaying(false)
+					setCurrentSession(1)
+				}}
+				className='opacity-40 self-end'
+			>
+				<Entypo name='ccw' size={30} color='#2c2b3c' />
+			</Pressable>
+
 			<View className='self-center items-center'>
 				<CountdownCircleTimer
 					key={key}
 					isPlaying={isPlaying}
-					duration={flowDuration}
+					duration={status === EnumStatus.REST ? breakDuration : flowDuration}
 					colors={['#3a3578', '#664ff3']}
-					colorsTime={[flowDuration, 0]}
+					colorsTime={[
+						status === EnumStatus.REST ? breakDuration : flowDuration,
+						0
+					]}
 					trailColor='#2f2f4c'
 					onComplete={() => {
 						setIsPlaying(false)
@@ -44,6 +58,16 @@ const Timer = () => {
 						if (isAllSessionsCompleted) {
 							setStatus(EnumStatus.COMPLETED)
 						}
+
+						setKey(prev => prev + 1)
+
+						if (sessionCount % 2 === 0) {
+							setStatus(EnumStatus.REST)
+						} else {
+							setCurrentSession(prev => prev + 1)
+						}
+
+						if (status === EnumStatus.REST) setStatus(EnumStatus.WORK)
 					}}
 					size={300}
 					strokeWidth={15}
@@ -103,8 +127,17 @@ const Timer = () => {
 					))}
 				</View>
 			</View>
-			<View className='flex-row items-center justify-center  mt-10'>
-				<Pressable onPress={() => {}}>
+			<View className='flex-row items-center justify-center mt-14'>
+				<Pressable
+					onPress={() => {
+						if (currentSession !== 1) {
+							setCurrentSession(prev => prev - 1)
+							setKey(prev => prev - 1)
+							setIsPlaying(false)
+						}
+					}}
+					className='opacity-50'
+				>
 					<Entypo name='chevron-left' size={30} color='#2c2b3c' />
 				</Pressable>
 
@@ -134,7 +167,16 @@ const Timer = () => {
 						size={44}
 					/>
 				</Pressable>
-				<Pressable onPress={() => {}}>
+				<Pressable
+					onPress={() => {
+						if (currentSession !== sessionCount + 1) {
+							setCurrentSession(prev => prev + 1)
+							setKey(prev => prev + 1)
+							setIsPlaying(false)
+						}
+					}}
+					className='opacity-50'
+				>
 					<Entypo name='chevron-right' size={30} color='#2c2b3c' />
 				</Pressable>
 			</View>
