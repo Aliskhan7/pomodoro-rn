@@ -61,13 +61,16 @@ const Timer = () => {
 
 						setKey(prev => prev + 1)
 
+						if (status === EnumStatus.REST) {
+							setStatus(EnumStatus.WORK)
+							setCurrentSession(prev => prev + 1)
+						}
+
 						if (sessionCount % 2 === 0) {
 							setStatus(EnumStatus.REST)
 						} else {
 							setCurrentSession(prev => prev + 1)
 						}
-
-						if (status === EnumStatus.REST) setStatus(EnumStatus.WORK)
 					}}
 					size={300}
 					strokeWidth={15}
@@ -108,10 +111,25 @@ const Timer = () => {
 										: `bg-[#2c2b3c] border-transparent ${isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'}`,
 									{
 										'bg-primary opacity-70':
-											index + 1 <= sessionCount && index !== currentSession
+											index + 1 <= sessionCount && index + 1 !== currentSession
 									}
 								)}
 							/>
+
+							{(index + 1) % 2 === 0 && (
+								<View className='absolute z-30 -top-4 left-[25px]'>
+									<AntDesign
+										name='rest'
+										size={12}
+										color={
+											index + 2 <= currentSession && status === EnumStatus.REST
+												? '#523fc0'
+												: '#2c2b3c'
+										}
+									/>
+								</View>
+							)}
+
 							{index + 1 !== sessionCount && (
 								<View
 									className={cn(
