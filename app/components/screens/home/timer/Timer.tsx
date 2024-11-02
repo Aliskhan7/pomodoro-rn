@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { Entypo, Foundation } from '@expo/vector-icons'
+import { AntDesign, Entypo, Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
 import { AppConstants } from '@/app.constants'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -16,6 +16,7 @@ const Timer = () => {
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [status, setStatus] = useState<EnumStatus>(EnumStatus.REST)
 	const [currentSession, setCurrentSession] = useState<number>(1)
+	const [currentBreak, setCurrentBreak] = useState<number>(0)
 	const [key, setKey] = useState(0)
 
 	// useEffect(() => {
@@ -33,6 +34,7 @@ const Timer = () => {
 					setKey(0)
 					setIsPlaying(false)
 					setCurrentSession(1)
+					setCurrentBreak(0)
 				}}
 				className='opacity-40 self-end'
 			>
@@ -68,15 +70,16 @@ const Timer = () => {
 
 						if (sessionCount % 2 === 0) {
 							setStatus(EnumStatus.REST)
+							setCurrentBreak(prev => prev + 1)
 						} else {
 							setCurrentSession(prev => prev + 1)
 						}
 					}}
 					size={300}
 					strokeWidth={15}
-					onUpdate={remainingTime => {
-						if (!!remainingTime) setStatus(EnumStatus.WORK)
-					}}
+					// onUpdate={remainingTime => {
+					// 	if (!!remainingTime) setStatus(EnumStatus.WORK)
+					// }}
 				>
 					{({ remainingTime }) => {
 						let minutes: string | number = Math.floor(remainingTime / 60)
@@ -94,7 +97,7 @@ const Timer = () => {
 							<View className='mt-5'>
 								<Text className='text-white text-6xl font-semibild mt-4'>{`${minutes}:${seconds}`}</Text>
 								<Text className='text-center text-2xl text-white mt-0.5'>
-									{status === EnumStatus.WORK ? 'Work' : 'Rest'}
+									{status}
 								</Text>
 							</View>
 						)
@@ -107,25 +110,27 @@ const Timer = () => {
 								className={cn(
 									'rounded-full border-[3px]',
 									index + 1 === currentSession
-										? `bg-[#1e1c2e] border-[#523fc0] ${isSmallIndicator ? 'w-[17px] h-[17px]' : 'w-[22px] h-[22px]'}`
-										: `bg-[#2c2b3c] border-transparent ${isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'}`,
+										? 'bg-[#1e1c2e] border-[#523fc0]'
+										: 'bg-[#2c2b3c] border-transparent',
 									{
 										'bg-primary opacity-70':
 											index + 1 <= sessionCount && index + 1 !== currentSession
-									}
+									},
+									isSmallIndicator ? 'w-[15px] h-[15px]' : 'w-5 h-5'
 								)}
 							/>
 
-							{(index + 1) % 2 === 0 && (
-								<View className='absolute z-30 -top-4 left-[25px]'>
+							{(index + 1) % 2 === 0 && index + 1 !== sessionCount && (
+								<View
+									className={cn(
+										'absolute z-30 -top-4',
+										isSmallIndicator ? 'left-[17px]' : 'left-[25px'
+									)}
+								>
 									<AntDesign
 										name='rest'
-										size={12}
-										color={
-											index + 2 <= currentSession && status === EnumStatus.REST
-												? '#523fc0'
-												: '#2c2b3c'
-										}
+										size={isSmallIndicator ? 16 : 12}
+										color={index <= currentBreak ? '#523fc0' : '#2c2b3c'}
 									/>
 								</View>
 							)}
@@ -145,6 +150,7 @@ const Timer = () => {
 					))}
 				</View>
 			</View>
+
 			<View className='flex-row items-center justify-center mt-14'>
 				<Pressable
 					onPress={() => {
@@ -152,6 +158,8 @@ const Timer = () => {
 							setCurrentSession(prev => prev - 1)
 							setKey(prev => prev - 1)
 							setIsPlaying(false)
+
+							currentSession % 2 && setCurrentBreak(prev => prev - 1)
 						}
 					}}
 					className='opacity-50'
@@ -191,6 +199,7 @@ const Timer = () => {
 							setCurrentSession(prev => prev + 1)
 							setKey(prev => prev + 1)
 							setIsPlaying(false)
+							currentSession % 2 === 0 && setCurrentBreak(prev => prev + 1)
 						}
 					}}
 					className='opacity-50'
