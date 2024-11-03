@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { AntDesign, Entypo, Foundation } from '@expo/vector-icons'
 import cn from 'clsx'
 import { AppConstants } from '@/app.constants'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import { EnumStatus } from '@/components/screens/home/timer/timer.interface'
+import ConfettiCannon from 'react-native-confetti-cannon'
 
 const flowDuration = 1 * 60
 const sessionCount = 7
@@ -26,6 +27,8 @@ const Timer = () => {
 	// }, [isPlaying])
 
 	const isAllSessionsCompleted = currentSession === sessionCount
+
+	const confettiRef = useRef<ConfettiCannon>(null)
 
 	return (
 		<View className='justify-center flex-1'>
@@ -54,10 +57,11 @@ const Timer = () => {
 					trailColor='#2f2f4c'
 					onComplete={() => {
 						setIsPlaying(false)
-						setCurrentSession(prev => prev + 1)
-						setStatus(EnumStatus.REST)
+						// setCurrentSession(prev => prev + 1)
+						// setStatus(EnumStatus.REST)
 
 						if (isAllSessionsCompleted) {
+							confettiRef.current?.start()
 							setStatus(EnumStatus.COMPLETED)
 						}
 
@@ -95,6 +99,12 @@ const Timer = () => {
 
 						return (
 							<View className='mt-5'>
+								<ConfettiCannon
+									autoStart={false}
+									ref={confettiRef}
+									count={200}
+									origin={{ x: -10, y: 0 }}
+								/>
 								<Text className='text-white text-6xl font-semibild mt-4'>{`${minutes}:${seconds}`}</Text>
 								<Text className='text-center text-2xl text-white mt-0.5'>
 									{status}
@@ -130,7 +140,7 @@ const Timer = () => {
 									<AntDesign
 										name='rest'
 										size={isSmallIndicator ? 16 : 12}
-										color={index <= currentBreak ? '#523fc0' : '#2c2b3c'}
+										color={index / 2 <= currentBreak ? '#523fc0' : '#2c2b3c'}
 									/>
 								</View>
 							)}
