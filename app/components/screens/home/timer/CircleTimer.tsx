@@ -1,7 +1,7 @@
-import React, { Dispatch, FC, SetStateAction, useRef } from 'react'
+import React, { FC, useRef } from 'react'
 import {
 	EnumStatus,
-	ITimerOptions
+	ITimerProps
 } from '@/components/screens/home/timer/timer.interface'
 import { Text, View } from 'react-native'
 import ConfettiCannon from 'react-native-confetti-cannon'
@@ -12,10 +12,10 @@ import {
 	sessionCount
 } from '@/components/screens/home/timer/time.constants'
 
-const CircleTimer: FC<{
-	timer: ITimerOptions
-	setTimer: Dispatch<SetStateAction<ITimerOptions>>
-}> = ({ timer: { key, isPlaying, status, currentSession }, setTimer }) => {
+const CircleTimer: FC<ITimerProps> = ({
+	timer: { key, isPlaying, status, currentSession },
+	setTimer
+}) => {
 	const isAllSessionsCompleted = currentSession === sessionCount
 	const confettiRef = useRef<ConfettiCannon>(null)
 

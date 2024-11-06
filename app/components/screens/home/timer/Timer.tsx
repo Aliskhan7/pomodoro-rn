@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Pressable, View } from 'react-native'
-import { AntDesign, Entypo, Foundation } from '@expo/vector-icons'
-import cn from 'clsx'
-import { AppConstants } from '@/app.constants'
+import { Entypo } from '@expo/vector-icons'
 import {
 	EnumStatus,
 	ITimerOptions
@@ -10,6 +8,7 @@ import {
 import CircleTimer from '@/components/screens/home/timer/CircleTimer'
 import SessionIndicator from '@/components/screens/home/timer/session-indicator/SessionIndicator'
 import Actions from '@/components/screens/home/timer/actions/Actions'
+import { sessionCount } from '@/components/screens/home/timer/time.constants'
 
 const isSmallIndicator = sessionCount > 7
 
@@ -41,8 +40,12 @@ const Timer = () => {
 
 			<View className='self-center items-center'>
 				<CircleTimer setTimer={setTimer} timer={timer} />
-				<SessionIndicator currentSession={timer.currentSession} currentBreak={timer.currentBreak}/>
-				<Actions/>
+				<SessionIndicator
+					currentSession={timer.currentSession}
+					currentBreak={timer.currentBreak}
+				/>
+				<Actions timer={timer} setTimer={setTimer} />
+			</View>
 		</View>
 	)
 }
