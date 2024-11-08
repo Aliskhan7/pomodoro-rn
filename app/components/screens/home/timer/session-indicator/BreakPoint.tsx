@@ -3,12 +3,7 @@ import cn from 'clsx'
 import { AntDesign } from '@expo/vector-icons'
 import { View } from 'react-native'
 import { sessionCount } from '@/components/screens/home/timer/time.constants'
-
-interface IBreakPoint {
-	isSmallIndicator: boolean
-	index: number
-	currentBreak: number
-}
+import { IBreakPoint } from '@/components/screens/home/timer/session-indicator/session-indicator.interface'
 
 const BreakPoint: FC<IBreakPoint> = ({
 	index,

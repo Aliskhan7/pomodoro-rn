@@ -2,14 +2,9 @@ import React, { FC } from 'react'
 import { View } from 'react-native'
 import cn from 'clsx'
 import { sessionCount } from '@/components/screens/home/timer/time.constants'
+import { IPointProps } from '@/components/screens/home/timer/session-indicator/session-indicator.interface'
 
-interface ILine {
-	isSmallIndicator: boolean
-	index: number
-	currentSession: number
-}
-
-const Line: FC<ILine> = ({ currentSession, index, isSmallIndicator }) => {
+const Line: FC<IPointProps> = ({ currentSession, index, isSmallIndicator }) => {
 	if (index + 1 !== sessionCount) return null
 	return (
 		<View
