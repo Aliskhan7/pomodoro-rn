@@ -5,10 +5,10 @@ import {
 	EnumStatus,
 	ITimerOptions
 } from '@/components/screens/home/timer/timer.interface'
-import CircleTimer from '@/components/screens/home/timer/CircleTimer'
 import SessionIndicator from '@/components/screens/home/timer/session-indicator/SessionIndicator'
 import Actions from '@/components/screens/home/timer/actions/Actions'
 import { sessionCount } from '@/components/screens/home/timer/time.constants'
+import CircleTimer from '@/components/screens/home/timer/circle-timer/CircleTimer'
 
 const isSmallIndicator = sessionCount > 7
 

@@ -1,18 +1,18 @@
 import React, { FC, RefObject } from 'react'
 import {
 	EnumStatus,
-	ITimerProps
+	ITimerOptions
 } from '@/components/screens/home/timer/timer.interface'
 import { flowDuration } from '@/components/screens/home/timer/time.constants'
 import { Text, View } from 'react-native'
 import ConfettiCannon from 'react-native-confetti-cannon'
 
-interface ITimerInfo extends Pick<ITimerProps, 'setTimer'> {
+interface ITimerInfo extends Pick<ITimerOptions, 'status'> {
 	remainingTime: number
 	confettiRef: RefObject<ConfettiCannon>
 }
 
-const TimerInfo: FC<ITimerInfo> = ({ remainingTime, confettiRef }) => {
+const TimerInfo: FC<ITimerInfo> = ({ remainingTime, confettiRef, status }) => {
 	let minutes: string | number = Math.floor(remainingTime / 60)
 	let seconds: string | number = remainingTime % 60
 

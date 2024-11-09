@@ -10,7 +10,7 @@ import {
 	flowDuration,
 	sessionCount
 } from '@/components/screens/home/timer/time.constants'
-import Timer from '@/components/screens/home/timer/Timer'
+import TimerInfo from '@/components/screens/home/timer/circle-timer/TimerInfo'
 
 const CircleTimer: FC<ITimerProps> = ({
 	timer: { key, isPlaying, status, currentSession },
@@ -69,7 +69,13 @@ const CircleTimer: FC<ITimerProps> = ({
 			// 	if (!!remainingTime) setStatus(EnumStatus.WORK)
 			// }}
 		>
-			<Timer />
+			{({ remainingTime }) => (
+				<TimerInfo
+					status={status}
+					confettiRef={confettiRef}
+					remainingTime={remainingTime}
+				/>
+			)}
 		</CountdownCircleTimer>
 	)
 }
