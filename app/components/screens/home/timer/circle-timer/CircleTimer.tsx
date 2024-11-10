@@ -7,17 +7,22 @@ import ConfettiCannon from 'react-native-confetti-cannon'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import {
 	breakDuration,
-	flowDuration,
-	sessionCount
+	flowDuration
 } from '@/components/screens/home/timer/time.constants'
 import TimerInfo from '@/components/screens/home/timer/circle-timer/TimerInfo'
+import { useTimer } from '@/components/screens/home/timer/circle-timer/useTimer'
 
 const CircleTimer: FC<ITimerProps> = ({
 	timer: { key, isPlaying, status, currentSession },
 	setTimer
 }) => {
-	const isAllSessionsCompleted = currentSession === sessionCount
 	const confettiRef = useRef<ConfettiCannon>(null)
+
+	const { completeSession } = useTimer({
+		setTimer,
+		currentSession,
+		confettiRef
+	})
 
 	return (
 		<CountdownCircleTimer
@@ -30,39 +35,7 @@ const CircleTimer: FC<ITimerProps> = ({
 				0
 			]}
 			trailColor='#2f2f4c'
-			onComplete={() => {
-				setTimer(prev => ({ ...prev, isPlaying: false }))
-				// setCurrentSession(prev => prev + 1)
-				// setStatus(EnumStatus.REST)
-
-				if (isAllSessionsCompleted) {
-					confettiRef.current?.start()
-					setTimer(prev => ({ ...prev, status: EnumStatus.COMPLETED }))
-				}
-
-				setTimer(prev => ({ ...prev, key: prev.key + 1 }))
-
-				if (status === EnumStatus.REST) {
-					setTimer(prev => ({
-						...prev,
-						status: EnumStatus.REST,
-						currentSession: prev.currentSession + 1
-					}))
-				}
-
-				if (sessionCount % 2 === 0) {
-					setTimer(prev => ({
-						...prev,
-						status: EnumStatus.REST,
-						currentBreak: prev.currentBreak + 1
-					}))
-				} else {
-					setTimer(prev => ({
-						...prev,
-						currentSession: prev.currentSession + 1
-					}))
-				}
-			}}
+			onComplete={completeSession}
 			size={300}
 			strokeWidth={15}
 			// onUpdate={remainingTime => {
