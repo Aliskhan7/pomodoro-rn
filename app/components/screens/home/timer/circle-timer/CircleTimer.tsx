@@ -18,11 +18,7 @@ const CircleTimer: FC<ITimerProps> = ({
 }) => {
 	const confettiRef = useRef<ConfettiCannon>(null)
 
-	const { completeSession } = useTimer({
-		setTimer,
-		currentSession,
-		confettiRef
-	})
+	const { completeSession } = useTimer({ setTimer })
 
 	return (
 		<CountdownCircleTimer
@@ -35,7 +31,9 @@ const CircleTimer: FC<ITimerProps> = ({
 				0
 			]}
 			trailColor='#2f2f4c'
-			onComplete={completeSession}
+			onComplete={() => {
+				setTimer(prev => ({ ...prev, isPlaying: false, key: prev.key + 1 }))
+			}}
 			size={300}
 			strokeWidth={15}
 			// onUpdate={remainingTime => {
