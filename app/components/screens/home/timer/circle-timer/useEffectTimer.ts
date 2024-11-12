@@ -9,11 +9,16 @@ import ConfettiCannon from 'react-native-confetti-cannon'
 
 interface IUseEffectTimer
 	extends Pick<ITimerProps, 'setTimer'>,
-		Pick<ITimerOptions, 'currentSession'> {
+		Pick<ITimerOptions, 'currentSession' | 'status'> {
 	confettiRef: RefObject<ConfettiCannon>
 }
 
-export const useEffectTimer = ({ setTimer }: IUseEffectTimer) => {
+export const useEffectTimer = ({
+	setTimer,
+	currentSession,
+	confettiRef,
+	status
+}: IUseEffectTimer) => {
 	useEffect(() => {
 		if (currentSession === sessionCount) {
 			confettiRef.current?.start()

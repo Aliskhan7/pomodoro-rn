@@ -10,7 +10,7 @@ import {
 	flowDuration
 } from '@/components/screens/home/timer/time.constants'
 import TimerInfo from '@/components/screens/home/timer/circle-timer/TimerInfo'
-import { useTimer } from '@/components/screens/home/timer/circle-timer/useTimer'
+import { useEffectTimer } from '@/components/screens/home/timer/circle-timer/useEffectTimer'
 
 const CircleTimer: FC<ITimerProps> = ({
 	timer: { key, isPlaying, status, currentSession },
@@ -18,7 +18,7 @@ const CircleTimer: FC<ITimerProps> = ({
 }) => {
 	const confettiRef = useRef<ConfettiCannon>(null)
 
-	const { completeSession } = useTimer({ setTimer })
+	useEffectTimer({ confettiRef, currentSession, status, setTimer })
 
 	return (
 		<CountdownCircleTimer

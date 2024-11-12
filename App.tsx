@@ -3,6 +3,7 @@ import AuthProvider from '@/Providers/AuthProvider'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Navigation from '@/navigation/Navigation'
 import { StatusBar } from 'expo-status-bar'
+import './index.css'
 
 const queryClient = new QueryClient()
 export default function App() {
