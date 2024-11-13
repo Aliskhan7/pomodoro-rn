@@ -1,29 +1,18 @@
 import React, { FC, RefObject } from 'react'
-import {
-	EnumStatus,
-	ITimerOptions
-} from '@/components/screens/home/timer/timer.interface'
-import { flowDuration } from '@/components/screens/home/timer/time.constants'
+import { ITimerOptions } from '@/components/screens/home/timer/timer.interface'
 import { Text, View } from 'react-native'
 import ConfettiCannon from 'react-native-confetti-cannon'
+import { useTimerTime } from '@/components/screens/home/timer/circle-timer/useTimerTime'
 
 interface ITimerInfo extends Pick<ITimerOptions, 'status'> {
 	remainingTime: number
 	confettiRef: RefObject<ConfettiCannon>
 }
 
+const formatTime = (number: number) => (number < 10 ? '0' + number : number)
+
 const TimerInfo: FC<ITimerInfo> = ({ remainingTime, confettiRef, status }) => {
-	let minutes: string | number = Math.floor(remainingTime / 60)
-	let seconds: string | number = remainingTime % 60
-
-	if (status === EnumStatus.REST) {
-		minutes = Math.floor(remainingTime / 60)
-		seconds = flowDuration % 60
-	}
-
-	minutes = minutes < 10 ? '0' + minutes : minutes
-	seconds = seconds < 10 ? '0' + seconds : seconds
-
+	const { seconds, minutes } = useTimerTime(remainingTime, status)
 	return (
 		<View className='mt-5'>
 			<ConfettiCannon
@@ -32,7 +21,7 @@ const TimerInfo: FC<ITimerInfo> = ({ remainingTime, confettiRef, status }) => {
 				count={200}
 				origin={{ x: -10, y: 0 }}
 			/>
-			<Text className='text-white text-6xl font-semibild mt-4'>{`${minutes}:${seconds}`}</Text>
+			<Text className='text-white text-6xl font-semibild mt-4'>{`${formatTime(minutes)}:${formatTime(seconds)}`}</Text>
 			<Text className='text-center text-2xl text-white mt-0.5'>{status}</Text>
 		</View>
 	)
