@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { Pressable } from 'react-native'
 import {
+	EnumStatus,
 	ITimerOptions,
 	ITimerProps
 } from '@/components/screens/home/timer/timer.interface'
@@ -24,7 +25,8 @@ const Arrow: FC<IArrow> = ({ setTimer, direction, currentSession }) => {
 						key: prev.key - 1,
 						isPlaying: false,
 						currentBreak:
-							currentSession % 2 ? prev.currentBreak - 1 : prev.currentBreak
+							currentSession % 2 ? prev.currentBreak - 1 : prev.currentBreak,
+						status: currentSession % 2 === 0 ? EnumStatus.REST : EnumStatus.WORK
 					}))
 				}
 
@@ -37,7 +39,8 @@ const Arrow: FC<IArrow> = ({ setTimer, direction, currentSession }) => {
 						currentBreak:
 							currentSession % 2 === 0
 								? prev.currentBreak + 1
-								: prev.currentBreak
+								: prev.currentBreak,
+						status: currentSession % 2 === 0 ? EnumStatus.REST : EnumStatus.WORK
 					}))
 				}
 			}}
