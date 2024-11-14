@@ -7,7 +7,8 @@ import ConfettiCannon from 'react-native-confetti-cannon'
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import {
 	breakDuration,
-	flowDuration
+	flowDuration,
+	sessionCount
 } from '@/components/screens/home/timer/time.constants'
 import TimerInfo from '@/components/screens/home/timer/circle-timer/TimerInfo'
 import { useEffectTimer } from '@/components/screens/home/timer/circle-timer/useEffectTimer'
@@ -18,7 +19,7 @@ const CircleTimer: FC<ITimerProps> = ({
 }) => {
 	const confettiRef = useRef<ConfettiCannon>(null)
 
-	useEffectTimer({ confettiRef, currentSession, status, setTimer })
+	useEffectTimer({ confettiRef, currentSession, setTimer })
 
 	return (
 		<CountdownCircleTimer
@@ -33,6 +34,27 @@ const CircleTimer: FC<ITimerProps> = ({
 			trailColor='#2f2f4c'
 			onComplete={() => {
 				setTimer(prev => ({ ...prev, isPlaying: false, key: prev.key + 1 }))
+
+				if (sessionCount % 2 === 0) {
+					setTimer(prev => ({
+						...prev,
+						status: EnumStatus.REST,
+						currentBreak: prev.currentBreak + 1
+					}))
+				} else {
+					setTimer(prev => ({
+						...prev,
+						currentSession: prev.currentSession + 1
+					}))
+				}
+
+				if (status === EnumStatus.REST) {
+					setTimer(prev => ({
+						...prev,
+						status: EnumStatus.REST,
+						currentSession: prev.currentSession + 1
+					}))
+				}
 			}}
 			size={300}
 			strokeWidth={15}
