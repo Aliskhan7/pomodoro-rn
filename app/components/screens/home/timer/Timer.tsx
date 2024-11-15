@@ -30,7 +30,8 @@ const Timer = () => {
 						key: 0,
 						isPlaying: false,
 						currentSession: 1,
-						currentBreak: 0
+						currentBreak: 0,
+						status: EnumStatus.WORK
 					}))
 				}}
 				className='opacity-40 self-end'

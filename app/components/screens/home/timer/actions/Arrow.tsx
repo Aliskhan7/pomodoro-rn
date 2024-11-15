@@ -26,7 +26,10 @@ const Arrow: FC<IArrow> = ({ setTimer, direction, currentSession }) => {
 						isPlaying: false,
 						currentBreak:
 							currentSession % 2 ? prev.currentBreak - 1 : prev.currentBreak,
-						status: currentSession % 2 === 0 ? EnumStatus.REST : EnumStatus.WORK
+						status:
+							(currentSession + 2) % 2 === 0 && currentSession !== 2
+								? EnumStatus.REST
+								: EnumStatus.WORK
 					}))
 				}
 
