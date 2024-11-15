@@ -19,7 +19,7 @@ export const useEffectTimer = ({
 	confettiRef
 }: IUseEffectTimer) => {
 	useEffect(() => {
-		if (currentSession === sessionCount) {
+		if (currentSession === sessionCount + 1) {
 			confettiRef.current?.start()
 			setTimer(prev => ({ ...prev, status: EnumStatus.COMPLETED }))
 		}
